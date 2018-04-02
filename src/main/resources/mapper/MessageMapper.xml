@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.pulingle.message_service.mapper.MessageMapper">
+    <insert id="send" useGeneratedKeys="true" keyProperty="messageId" parameterType="Message">
+        INSERT INTO message(type,read_status,send_user_id,rece_user_id,send_time,delete_status,content)
+        VALUES (#{type},#{readStatus},#{sendUserId},#{receUserId},#{sendTime},#{deleteStatus},#{content})
+    </insert>
+    <select id="findMessage" resultType="Message">
+        SELECT * FROM message
+    </select>
+</mapper>

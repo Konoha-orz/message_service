@@ -1,0 +1,21 @@
+spring:
+  cloud:
+    config:
+      profile: dev
+      label: master
+      discovery:
+        enabled: true
+        service-id: config_server
+  rabbitmq:
+    host: ${rabbitmq.host}
+    port: ${rabbitmq.port}
+    username: ${rabbitmq.username}
+    password: ${rabbitmq.password}
+eureka:
+  client:
+    service-url:
+      defaultZone: http://120.78.81.233:8761/eureka/
+  instance:
+    prefer-ip-address: true
+#    指定服务IP地址
+#    ip-address: 120.78.81.233
