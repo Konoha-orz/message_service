@@ -3,10 +3,7 @@ package com.pulingle.message_service.web;
 import com.pulingle.message_service.domain.dto.RespondBody;
 import com.pulingle.message_service.domain.entity.Message;
 import com.pulingle.message_service.service.MessageService;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 
@@ -29,5 +26,10 @@ public class MessageController {
     @RequestMapping(value = "/send",method = RequestMethod.POST)
     public RespondBody sendMessage(@RequestBody Message message){
         return messageService.sendMessage(message);
+    }
+
+    @RequestMapping("/sendFriendRequest")
+    public @ResponseBody RespondBody  sendFriendRequest(long sendUserId,long receUserId){
+        return messageService.sendFriendRequest(sendUserId,receUserId);
     }
 }

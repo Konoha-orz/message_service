@@ -11,4 +11,5 @@ import com.pulingle.message_service.domain.entity.Message;
 public interface MessageService {
     RespondBody sendMessage(Message message);
 
+    RespondBody sendFriendRequest(long sendUserId,long receUserId);
 }
