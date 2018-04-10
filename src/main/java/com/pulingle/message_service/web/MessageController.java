@@ -28,6 +28,11 @@ public class MessageController {
         return messageService.sendMessage(message);
     }
 
+    /**
+     * @param sendUserId 发送请求id
+     * @param receUserId 接受请求id
+     * @return 返回体
+     */
     @RequestMapping("/sendFriendRequest")
     public @ResponseBody RespondBody  sendFriendRequest(long sendUserId,long receUserId){
         return messageService.sendFriendRequest(sendUserId,receUserId);

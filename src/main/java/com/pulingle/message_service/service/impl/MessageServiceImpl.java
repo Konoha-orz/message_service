@@ -4,14 +4,12 @@ import com.pulingle.message_service.domain.dto.RespondBody;
 import com.pulingle.message_service.domain.entity.Message;
 import com.pulingle.message_service.mapper.MessageMapper;
 import com.pulingle.message_service.service.MessageService;
-import com.pulingle.message_service.utils.JwtUtil;
 import com.pulingle.message_service.utils.RespondBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 
 /**
@@ -48,6 +46,11 @@ public class MessageServiceImpl implements MessageService {
         return respondBody;
     }
 
+    /**
+     * @param sendUserId 发送请求id
+     * @param receUserId 接受请求id
+     * @return 返回体
+     */
     @Override
     public RespondBody sendFriendRequest(long sendUserId, long receUserId) {
         RespondBody respondBody = new RespondBody();
@@ -66,6 +69,7 @@ public class MessageServiceImpl implements MessageService {
         }catch (Exception e){
             respondBody.setStatus("0");
             respondBody.setMsg("插入失败");
+            e.printStackTrace();
         }
         return respondBody;
     }

@@ -17,6 +17,6 @@ public interface MessageMapper {
     int send(Message message);
     List<Map> findMessage();
 
-    @Insert("insert into message(type,read_status,send_user_id,rece_user_id,send_time,delete_status,content) values(#{type},#{read_status},#{send_user_id},#{rece_user_id},#{send_time},#{delete_status},#{content})")
+    @Insert("insert into message(type,read_status,send_user_id,rece_user_id,send_time,delete_status,content) values (#{type},#{readStatus},#{sendUserId},#{receUserId},#{sendTime},#{deleteStatus},#{content})")
     void addFriendRequest(Message message);
 }

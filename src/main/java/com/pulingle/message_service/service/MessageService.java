@@ -11,5 +11,10 @@ import com.pulingle.message_service.domain.entity.Message;
 public interface MessageService {
     RespondBody sendMessage(Message message);
 
+    /**
+     * @param sendUserId 发送请求id
+     * @param receUserId 接受请求id
+     * @return 返回体
+     */
     RespondBody sendFriendRequest(long sendUserId,long receUserId);
 }
