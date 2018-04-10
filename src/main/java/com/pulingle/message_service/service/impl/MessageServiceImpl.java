@@ -96,5 +96,23 @@ public class MessageServiceImpl implements MessageService {
         return respondBody;
     }
 
+    /**
+     * @param messageId 消息id
+     * @return 返回体
+     * 删除对应id 的好友请求消息
+     */
+    @Override
+    public RespondBody deleteFriendRequest(long messageId) {
+        RespondBody respondBody;
+        try {
+            messageMapper.deleteFriendRequest(messageId);
+            respondBody = RespondBuilder.buildNormalResponse("删除成功！");
+        }catch (Exception e){
+            e.printStackTrace();
+            respondBody = RespondBuilder.buildErrorResponse("删除失败！");
+        }
+        return respondBody;
+    }
+
 
 }

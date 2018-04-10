@@ -1,6 +1,7 @@
 package com.pulingle.message_service.mapper;
 
 import com.pulingle.message_service.domain.entity.Message;
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Component;
@@ -23,4 +24,7 @@ public interface MessageMapper {
 
     @Select("select message_id as messageId,send_user_id as sendUserId,send_time as sendTime from message where rece_user_id=#{userId} and type=2")
     List<Message> getFriendRequest(long userId);
+
+    @Delete("delete from message where message_id = #{messageId}")
+    void deleteFriendRequest(long messageId);
 }

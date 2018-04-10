@@ -24,4 +24,11 @@ public interface MessageService {
      * 根据用户id查询所有的好友请求
      */
     RespondBody getFriendRequest(long userId);
+
+    /**
+     * @param messageId 消息id
+     * @return 返回体
+     * 删除对应id 的好友请求消息
+     */
+    RespondBody deleteFriendRequest(long messageId);
 }

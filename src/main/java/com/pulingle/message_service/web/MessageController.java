@@ -38,8 +38,23 @@ public class MessageController {
         return messageService.sendFriendRequest(sendUserId,receUserId);
     }
 
+    /**
+     * @param userId 用户id
+     * @return 返回体
+     * 根据用户id查询所有的好友请求
+     */
     @RequestMapping("/getFriendRequest")
     public @ResponseBody RespondBody  getFriendRequest(long userId){
         return messageService.getFriendRequest(userId);
+    }
+
+    /**
+     * @param messageId 消息id
+     * @return 返回体
+     * 删除对应id 的好友请求消息
+     */
+    @RequestMapping("/deleteFriendRequest")
+    public @ResponseBody RespondBody deleteFriendRequest(long messageId){
+        return messageService.deleteFriendRequest(messageId);
     }
 }
