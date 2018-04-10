@@ -17,4 +17,11 @@ public interface MessageService {
      * @return 返回体
      */
     RespondBody sendFriendRequest(long sendUserId,long receUserId);
+
+    /**
+     * @param userId 用户id
+     * @return 返回体
+     * 根据用户id查询所有的好友请求
+     */
+    RespondBody getFriendRequest(long userId);
 }

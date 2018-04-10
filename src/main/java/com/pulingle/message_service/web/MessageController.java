@@ -37,4 +37,9 @@ public class MessageController {
     public @ResponseBody RespondBody  sendFriendRequest(long sendUserId,long receUserId){
         return messageService.sendFriendRequest(sendUserId,receUserId);
     }
+
+    @RequestMapping("/getFriendRequest")
+    public @ResponseBody RespondBody  getFriendRequest(long userId){
+        return messageService.getFriendRequest(userId);
+    }
 }

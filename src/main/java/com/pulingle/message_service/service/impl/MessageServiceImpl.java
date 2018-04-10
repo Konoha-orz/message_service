@@ -10,7 +10,7 @@ import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
+import java.util.*;
 
 /**
  * Created by @杨健 on 2018/4/1 17:47
@@ -68,6 +68,30 @@ public class MessageServiceImpl implements MessageService {
         }catch (Exception e){
             respondBody = RespondBuilder.buildErrorResponse("请求失败！");
             e.printStackTrace();
+        }
+        return respondBody;
+    }
+
+    @Override
+    public RespondBody getFriendRequest(long userId) {
+        RespondBody respondBody;
+        try {
+            List<Message> list = messageMapper.getFriendRequest(userId);
+            List<Map> returnlist = new ArrayList<>();
+            for (int i = 0; i < list.size(); i++) {
+                long sendUserId = list.get(i).getSendUserId();
+                long messageId = list.get(i).getMessageId();
+                Date sendTime = list.get(i).getSendTime();
+                Map<String, Object> map = new HashMap<>();
+                map.put("sendUserId", sendUserId);
+                map.put("messageId", messageId);
+                map.put("sendTime", sendTime);
+                returnlist.add(map);
+            }
+            respondBody = RespondBuilder.buildNormalResponse(returnlist);
+        }catch (Exception e){
+            e.printStackTrace();
+            respondBody = RespondBuilder.buildErrorResponse("请求失败！");
         }
         return respondBody;
     }
