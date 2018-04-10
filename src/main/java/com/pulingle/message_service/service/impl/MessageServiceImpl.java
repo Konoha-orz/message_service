@@ -53,7 +53,7 @@ public class MessageServiceImpl implements MessageService {
      */
     @Override
     public RespondBody sendFriendRequest(long sendUserId, long receUserId) {
-        RespondBody respondBody = new RespondBody();
+        RespondBody respondBody;
         try {
             Message message = new Message();
             message.setSendUserId(sendUserId);
@@ -64,11 +64,9 @@ public class MessageServiceImpl implements MessageService {
             message.setDeleteStatus(0);
             message.setContent("好友请求消息");
             messageMapper.addFriendRequest(message);
-            respondBody.setStatus("1");
-            respondBody.setMsg("0000");
+            respondBody = RespondBuilder.buildNormalResponse("请求成功！");
         }catch (Exception e){
-            respondBody.setStatus("0");
-            respondBody.setMsg("插入失败");
+            respondBody = RespondBuilder.buildErrorResponse("请求失败！");
             e.printStackTrace();
         }
         return respondBody;
