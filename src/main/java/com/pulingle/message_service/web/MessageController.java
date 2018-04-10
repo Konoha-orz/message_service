@@ -32,20 +32,9 @@ public class MessageController {
      * @param sendUserId 发送请求id
      * @param receUserId 接受请求id
      * @return 返回体
-     * 发送好友请求
      */
     @RequestMapping("/sendFriendRequest")
     public @ResponseBody RespondBody  sendFriendRequest(long sendUserId,long receUserId){
         return messageService.sendFriendRequest(sendUserId,receUserId);
-    }
-
-    /**
-     * @param userId 用户id
-     * @return 返回体
-     * 根据用户id 查询所有的好友请求
-     */
-    @RequestMapping("/getFriendRequest")
-    public @ResponseBody RespondBody getFriendRequest(long userId){
-        return messageService.getFriendRequest(userId);
     }
 }

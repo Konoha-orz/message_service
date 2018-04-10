@@ -2,7 +2,6 @@ package com.pulingle.message_service.mapper;
 
 import com.pulingle.message_service.domain.entity.Message;
 import org.apache.ibatis.annotations.Insert;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
@@ -20,7 +19,4 @@ public interface MessageMapper {
 
     @Insert("insert into message(type,read_status,send_user_id,rece_user_id,send_time,delete_status,content) values (#{type},#{readStatus},#{sendUserId},#{receUserId},#{sendTime},#{deleteStatus},#{content})")
     void addFriendRequest(Message message);
-
-    @Select("select message_id as messageId,send_user_id as sendUserId,send_time as sendTime from message where rece_user_id=#{userId} and type=2")
-    List<Message> getMessageByUserId(long userId);
 }
