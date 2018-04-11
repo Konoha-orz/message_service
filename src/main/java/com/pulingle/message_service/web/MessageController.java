@@ -3,6 +3,7 @@ package com.pulingle.message_service.web;
 import com.pulingle.message_service.domain.dto.RespondBody;
 import com.pulingle.message_service.domain.entity.Message;
 import com.pulingle.message_service.service.MessageService;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
@@ -32,9 +33,10 @@ public class MessageController {
      * @param sendUserId 发送请求id
      * @param receUserId 接受请求id
      * @return 返回体
+     * 发送添加好友请求
      */
     @RequestMapping("/sendFriendRequest")
-    public @ResponseBody RespondBody  sendFriendRequest(long sendUserId,long receUserId){
+    public RespondBody sendFriendRequest(long sendUserId,long receUserId){
         return messageService.sendFriendRequest(sendUserId,receUserId);
     }
 
@@ -44,7 +46,7 @@ public class MessageController {
      * 根据用户id查询所有的好友请求
      */
     @RequestMapping("/getFriendRequest")
-    public @ResponseBody RespondBody  getFriendRequest(long userId){
+    public RespondBody  getFriendRequest(long userId){
         return messageService.getFriendRequest(userId);
     }
 
@@ -54,7 +56,7 @@ public class MessageController {
      * 删除对应id 的好友请求消息
      */
     @RequestMapping("/deleteFriendRequest")
-    public @ResponseBody RespondBody deleteFriendRequest(long messageId){
+    public RespondBody deleteFriendRequest(@RequestBody long messageId){
         return messageService.deleteFriendRequest(messageId);
     }
 }
