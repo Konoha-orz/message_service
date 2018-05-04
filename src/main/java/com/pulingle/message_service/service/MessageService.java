@@ -1,5 +1,6 @@
 package com.pulingle.message_service.service;
 
+import com.pulingle.message_service.domain.dto.MessageDTO;
 import com.pulingle.message_service.domain.dto.RespondBody;
 import com.pulingle.message_service.domain.entity.Message;
 
@@ -31,4 +32,40 @@ public interface MessageService {
      * 删除对应id 的好友请求消息
      */
     RespondBody deleteFriendRequest(long messageId);
+
+    /**
+    * @param: messageDTO(userId,currentPage,pageSize)
+    * @return: RespondBody
+    * @Des: 分页查询用户收到的私信
+    */
+    RespondBody queryMessage(MessageDTO messageDTO);
+
+    /**
+    * @param: messageId
+    * @return: RespondBody
+    * @Des: 设置消息已读状态
+    */
+    RespondBody readMessage(long messageId);
+
+    /**
+    * @param: userId
+    * @return: RespondBody
+    * @Des: 查询用户新的消息数
+    */
+    RespondBody countNewMessages(long userId);
+
+    /**
+    * @param: userId
+    * @return: RespondBody
+    * @Des: 查询各类新消息数
+    */
+    RespondBody getMessageNum(long userId);
+
+    /**
+    * @param: userId
+    * @return: RespondBody
+    * @Des: 获取用户好友发送最新消息的内容以及userId
+    */
+    RespondBody getNewMessageFriendIdList(long userId);
+
 }

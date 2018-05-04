@@ -3,11 +3,88 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.pulingle.message_service.mapper.MessageMapper">
+    <sql id="allColumn">
+        message_id AS messageId,type,read_status AS readStatus,send_user_id AS sendUserId,
+        rece_user_id AS receUserId,DATE_FORMAT(send_time,'%Y-%m-%d %h:%m:%s')AS sendTime,delete_status AS deleteStatus,content
+    </sql>
     <insert id="send" useGeneratedKeys="true" keyProperty="messageId" parameterType="Message">
         INSERT INTO message(type,read_status,send_user_id,rece_user_id,send_time,delete_status,content)
         VALUES (#{type},#{readStatus},#{sendUserId},#{receUserId},#{sendTime},#{deleteStatus},#{content})
     </insert>
-    <select id="findMessage" resultType="Message">
-        SELECT * FROM message
+    <select id="queryUserMessage" resultType="java.util.Map">
+        SELECT
+        message_id AS messageId,read_status AS readStatus,send_user_id AS sendUserId,
+        DATE_FORMAT(send_time,'%Y-%m-%d %h:%m:%s')AS sendTime,content
+        FROM message
+        <where>
+            rece_user_id=#{userId}
+            AND
+            delete_status=0
+            AND
+            type=1
+        </where>
+        ORDER BY message_id DESC
+        limit #{offset},#{size}
+    </select>
+    <select id="countMessageByUserId" resultType="java.lang.Long">
+        SELECT COUNT(message_id) FROM message
+        <where>
+            rece_user_id=#{userId}
+            AND
+            delete_status=0
+            AND
+            type=1
+        </where>
+    </select>
+    <update id="updateRead">
+        UPDATE message SET read_status=1
+        <where>
+            message_id=#{messageId}
+        </where>
+    </update>
+    <select id="countNewMessages" resultType="java.lang.Integer">
+        SELECT COUNT(0) FROM message
+        <where>
+            rece_user_id=#{userId} AND read_status=0 AND delete_status=0
+        </where>
+    </select>
+    <select id="countLetter" resultType="java.lang.Integer">
+        SELECT  COUNT(0) FROM message
+        <where>
+            rece_user_id=#{userId} AND type=1
+            AND read_status=0 AND delete_status=0
+        </where>
+    </select>
+    <select id="countFriendRequest" resultType="java.lang.Integer">
+        SELECT  COUNT(0) FROM message
+        <where>
+            rece_user_id=#{userId} AND type=2
+            AND read_status=0 AND delete_status=0
+        </where>
+    </select>
+    <insert id="addFriendRequest" parameterType="Message">
+        INSERT INTO message(type,send_user_id,rece_user_id,send_time,content) VALUES
+        (#{type},#{sendUserId},#{receUserId},#{sendTime},#{content})
+    </insert>
+    <select id="haveSendFriendRequest" parameterType="Message" resultType="java.lang.Integer">
+        SELECT COUNT(0) FROM message
+        <where>
+            send_user_id =#{sendUserId} AND rece_user_id =#{receUserId} AND type=2
+        </where>
+    </select>
+    <select id="getFriendRequest" parameterType="java.lang.Long" resultType="java.util.Map">
+        SELECT message_id AS messageId,send_user_id AS sendUserId,rece_user_id AS receUserId,DATE_FORMAT(send_time,'%Y-%m-%d %h:%m:%s')AS sendTime,content
+        FROM message
+        <where>
+            rece_user_id=#{userId}
+        </where>
+        ORDER BY message_id DESC
+    </select>
+    <select id="getNewMessageFriendIdList" parameterType="java.lang.Long" resultType="java.util.Map">
+        SELECT send_user_id,content FROM message
+        <where>
+            type=1 AND rece_user_id=#{userId} and read_status=0 And delete_status=0
+        </where>
+        order by message_id DESC
     </select>
 </mapper>

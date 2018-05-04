@@ -1,12 +1,16 @@
 package com.pulingle.message_service.web;
 
+import com.pulingle.message_service.domain.dto.MessageDTO;
 import com.pulingle.message_service.domain.dto.RespondBody;
+import com.pulingle.message_service.domain.dto.UserIdListDTO;
 import com.pulingle.message_service.domain.entity.Message;
+import com.pulingle.message_service.domain.entity.UserBasicInfo;
 import com.pulingle.message_service.service.MessageService;
-import org.apache.ibatis.annotations.Param;
+import com.pulingle.message_service.utils.IpUtil;
 import org.springframework.web.bind.annotation.*;
-
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+
 
 /**
  * Created by @杨健 on 2018/4/1 18:00
@@ -16,6 +20,7 @@ import javax.annotation.Resource;
 @RestController
 @RequestMapping(value = "message")
 public class MessageController {
+
     @Resource
     MessageService messageService;
 
@@ -50,7 +55,7 @@ public class MessageController {
     }
 
     /**
-     * @param messageId 消息id
+     * @param  messageId 消息id
      * @return 返回体
      * 删除对应id 的好友请求消息
      */
@@ -58,4 +63,45 @@ public class MessageController {
     public  RespondBody deleteFriendRequest(@RequestBody Message message){
         return messageService.deleteFriendRequest(message.getMessageId());
     }
+
+    /**
+     * @param: messageDTO(userId,currentPage,pageSize)
+     * @return: RespondBody
+     * @Des: 分页查询用户收到的私信
+     */
+    @RequestMapping(value = "/queryMessage",method = RequestMethod.POST)
+    public RespondBody queryMessage(@RequestBody MessageDTO messageDTO){
+        return messageService.queryMessage(messageDTO);
+    }
+
+    /**
+     * @param: messageId
+     * @return: RespondBody
+     * @Des: 设置消息已读状态
+     */
+    @RequestMapping(value = "/readMessage",method = RequestMethod.POST)
+    public RespondBody readMessage(@RequestBody Message message){
+        return messageService.readMessage(message.getMessageId());
+    }
+
+    @RequestMapping(value = "/countNewMessages",method = RequestMethod.POST)
+    public RespondBody countNewMessage(@RequestBody UserIdListDTO userIdListDTO){
+        return messageService.countNewMessages(userIdListDTO.getUserId());
+    }
+
+    @RequestMapping(value = "/getMessageNum",method = RequestMethod.POST)
+    public RespondBody getMessageNum(@RequestBody UserIdListDTO userIdListDTO){
+        return messageService.getMessageNum(userIdListDTO.getUserId());
+    }
+
+    /**
+     * @param: userId
+     * @return: RespondBody
+     * @Des: 获取用户好友发送最新消息的内容以及userId
+     */
+    @RequestMapping(value = "/getNewMessageFriendIdList",method = RequestMethod.POST)
+    public RespondBody getNewMessageFriendIdList(@RequestBody UserBasicInfo userBasicInfo){
+        return messageService.getNewMessageFriendIdList(userBasicInfo.getUserId());
+    }
+
 }
