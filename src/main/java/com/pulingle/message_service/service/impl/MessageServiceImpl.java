@@ -268,5 +268,32 @@ public class MessageServiceImpl implements MessageService {
         return respondBody;
     }
 
+    @Override
+    public RespondBody getMessageRecords(long userId, long friendId, int pageSize, int currentPage) {
+        RespondBody respondBody;
+        try{
+            //计算分页查询的条件
+            long recordNum = messageMapper.countFriendMessageAmount(userId,friendId);
+            double d = (double) recordNum / (double)pageSize;
+            long pageNum = (long) Math.ceil(d);
+            int offset = (currentPage - 1) * pageSize;
+            //查询记录信息
+            List<Map> resultList=messageMapper.queryMessageRecord(userId,friendId,offset,pageSize);
+            //设置与该好友的全部消息为已阅
+            messageMapper.updateMessageStatusForFriend(userId,friendId);
+            HashMap map=new HashMap();
+            map.put("recordNum",recordNum);
+            map.put("pageNum",pageNum);
+            map.put("pageSize",pageSize);
+            map.put("currentPage",currentPage);
+            map.put("resultList",resultList);
+            respondBody=RespondBuilder.buildNormalResponse(map);
+        }catch (Exception e){
+            e.printStackTrace();
+            respondBody=RespondBuilder.buildErrorResponse(e.getMessage());
+        }
+        return respondBody;
+    }
+
 
 }

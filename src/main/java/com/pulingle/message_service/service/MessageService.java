@@ -68,4 +68,10 @@ public interface MessageService {
     */
     RespondBody getNewMessageFriendIdList(long userId);
 
+    /**
+    * @param: userId,friendId,pageSize,currentPage
+    * @return: RespondBody
+    * @Des: 查看好友发送给你的私信消息
+    */
+    RespondBody getMessageRecords(long userId,long friendId,int pageSize,int currentPage);
 }

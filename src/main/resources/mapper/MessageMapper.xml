@@ -7,6 +7,9 @@
         message_id AS messageId,type,read_status AS readStatus,send_user_id AS sendUserId,
         rece_user_id AS receUserId,DATE_FORMAT(send_time,'%Y-%m-%d %h:%m:%s')AS sendTime,delete_status AS deleteStatus,content
     </sql>
+
+
+
     <insert id="send" useGeneratedKeys="true" keyProperty="messageId" parameterType="Message">
         INSERT INTO message(type,read_status,send_user_id,rece_user_id,send_time,delete_status,content)
         VALUES (#{type},#{readStatus},#{sendUserId},#{receUserId},#{sendTime},#{deleteStatus},#{content})
@@ -77,6 +80,7 @@
         FROM message
         <where>
             rece_user_id=#{userId}
+            AND type=2
         </where>
         ORDER BY message_id DESC
     </select>
@@ -87,4 +91,36 @@
         </where>
         order by message_id DESC
     </select>
+    <select id="countFriendMessageAmount" parameterType="java.lang.Long" resultType="java.lang.Long">
+        SELECT COUNT(message_id) FROM message
+        <where>
+            send_user_id IN (#{friendId},#{userId})
+            AND rece_user_id IN (#{userId},#{friendId})
+            AND type=1
+            AND delete_status=0
+        </where>
+    </select>
+    <select id="queryMessageRecord" resultType="java.util.Map">
+        SELECT message_id AS messageId,send_user_id AS sendUserId,rece_user_id AS receUserId,
+        DATE_FORMAT(send_time,'%Y-%m-%d %h:%m:%s')AS sendTime,content
+        FROM message
+        <where>
+            send_user_id IN (#{friendId},#{userId})
+            AND rece_user_id IN (#{userId},#{friendId})
+            AND type=1
+            AND delete_status=0
+        </where>
+        ORDER BY send_time DESC
+        limit #{offset},#{size}
+    </select>
+    <update id="updateMessageStatusForFriend">
+        UPDATE message SET read_status=1
+        <where>
+            send_user_id=#{friendId}
+            AND rece_user_id=#{userId}
+            AND read_status=0
+            AND delete_status=0
+            AND type=1
+        </where>
+    </update>
 </mapper>

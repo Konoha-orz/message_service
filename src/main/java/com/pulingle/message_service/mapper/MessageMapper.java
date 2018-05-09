@@ -97,4 +97,24 @@ public interface MessageMapper {
     */
     List<Map> getNewMessageFriendIdList(@Param("userId")long userId);
 
+    /**
+    * @param: userId,friendId
+    * @return: long
+    * @Des: 获取用户与某用户的私信消息记录数
+    */
+    long countFriendMessageAmount(@Param("userId")long userId,@Param("friendId")long friendId);
+
+    /**
+    * @param: userId,friendId,offset,size
+    * @return: List<Map>
+    * @Des: 分页查询用户与某用户的私信消息记录
+    */
+    List<Map> queryMessageRecord(@Param("userId")long userId,@Param("friendId")long friendId,@Param("offset")int offset,@Param("size")int size);
+
+    /**
+    * @param: userId,friendId
+    * @return: int
+    * @Des: 设置某用户与某用户的私信消息为已读
+    */
+    int updateMessageStatusForFriend(@Param("userId")long userId,@Param("friendId")long friendId);
 }

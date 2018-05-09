@@ -50,12 +50,12 @@ public class MessageController {
      * 根据用户id查询所有的好友请求
      */
     @RequestMapping("/getFriendRequest")
-    public RespondBody  getFriendRequest(long userId){
-        return messageService.getFriendRequest(userId);
+    public RespondBody  getFriendRequest(@RequestBody  UserBasicInfo userBasicInfo){
+        return messageService.getFriendRequest(userBasicInfo.getUserId());
     }
 
     /**
-     * @param  messageId 消息id
+     * @param
      * @return 返回体
      * 删除对应id 的好友请求消息
      */
@@ -102,6 +102,16 @@ public class MessageController {
     @RequestMapping(value = "/getNewMessageFriendIdList",method = RequestMethod.POST)
     public RespondBody getNewMessageFriendIdList(@RequestBody UserBasicInfo userBasicInfo){
         return messageService.getNewMessageFriendIdList(userBasicInfo.getUserId());
+    }
+
+    /**
+     * @param: userId,friendId,pageSize,currentPage
+     * @return: RespondBody
+     * @Des: 查看好友发送给你的私信消息
+     */
+    @RequestMapping(value = "/getMessageRecords",method = RequestMethod.POST)
+    public RespondBody getMessageRecords(@RequestBody MessageDTO messageDTO){
+        return messageService.getMessageRecords(messageDTO.getUserId(),messageDTO.getFriendId(),messageDTO.getPageSize(),messageDTO.getCurrentPage());
     }
 
 }

@@ -15,6 +15,11 @@ public class MessageDTO implements Serializable {
     private long userId;
 
     /**
+     * 好友Id
+     */
+    private long friendId;
+
+    /**
      * 当前页面数
      */
     private int currentPage;
@@ -23,6 +28,8 @@ public class MessageDTO implements Serializable {
      * 页面大小
      */
     private int pageSize;
+
+
 
     public long getUserId() {
         return userId;
@@ -46,5 +53,13 @@ public class MessageDTO implements Serializable {
 
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
+    }
+
+    public long getFriendId() {
+        return friendId;
+    }
+
+    public void setFriendId(long friendId) {
+        this.friendId = friendId;
     }
 }
