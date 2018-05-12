@@ -25,5 +25,13 @@ public class RespondBuilder {
         respondBody.setData(null);
         return respondBody;
     }
+
+    public static RespondBody buildTokenErrorResponse(Object object) {
+        RespondBody respondBody = new RespondBody();
+        respondBody.setStatus("2");
+        respondBody.setMsg("没有Token或Token");
+        respondBody.setData(object);
+        return respondBody;
+    }
 }
 
