@@ -53,7 +53,7 @@ public interface MessageMapper {
     * @return: int
     * @Des: 根据messageId 更新 为已读状态
     */
-    int updateRead(@Param("messageId")long messageId);
+    int updateRead(@Param("sendUserId")long sendUserId,@Param("receUserId")long receUserId);
 
     /**
     * @param: userId
@@ -117,4 +117,18 @@ public interface MessageMapper {
     * @Des: 设置某用户与某用户的私信消息为已读
     */
     int updateMessageStatusForFriend(@Param("userId")long userId,@Param("friendId")long friendId);
+
+    /**
+    * @param: userId,friendId
+    * @return: int
+    * @Des: 获取好友新消息数
+    */
+    int countFriendNewMessages(@Param("userId")long userId,@Param("friendId")long friendId);
+
+    /**
+    * @param: userId,friendId
+    * @return: int
+    * @Des: 删除好友之间的消息记录
+    */
+    int deleteFriendMessage(@Param("userId")long userId,@Param("friendId")long friend);
 }

@@ -1,5 +1,7 @@
 package com.pulingle.message_service.web;
 
+import com.pulingle.message_service.domain.dto.MessageDTO;
+import com.pulingle.message_service.domain.entity.User_info;
 import com.pulingle.message_service.service.SMSService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,8 +28,8 @@ public class SMSController {
      * @return json格式的msg 发短信响应
      */
     @RequestMapping("/sendSMS")
-    public Map<String, Object> sendSMS(String phone) {
-        return smsService.sendSMS(phone);
+    public Map<String, Object> sendSMS(@RequestBody User_info user_info) {
+        return smsService.sendSMS(user_info.getPhone());
     }
 
     /**
@@ -36,8 +38,8 @@ public class SMSController {
      * @return json格式的msg 验证短信验证码响应
      */
     @RequestMapping("/checkAuthCode")
-    public Map<String, Object> checkAuthCode(String phone, String authCode) {
-        return smsService.checkAuthCode(phone, authCode);
+    public Map<String, Object> checkAuthCode(@RequestBody MessageDTO messageDTO) {
+        return smsService.checkAuthCode(messageDTO.getPhone(), messageDTO.getAuthCode());
     }
 
 }

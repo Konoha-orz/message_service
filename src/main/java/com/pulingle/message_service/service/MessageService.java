@@ -45,7 +45,7 @@ public interface MessageService {
     * @return: RespondBody
     * @Des: 设置消息已读状态
     */
-    RespondBody readMessage(long messageId);
+    RespondBody readMessage(long sendUserId,long receUserId);
 
     /**
     * @param: userId
@@ -74,4 +74,11 @@ public interface MessageService {
     * @Des: 查看好友发送给你的私信消息
     */
     RespondBody getMessageRecords(long userId,long friendId,int pageSize,int currentPage);
+
+    /**
+     * @param: userId,friendId
+     * @return: RespondBody
+     * @Des: 删除好友之间的消息记录
+     */
+    RespondBody deleteFriendMessage(long userId ,long friendId);
 }

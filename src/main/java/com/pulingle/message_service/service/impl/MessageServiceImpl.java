@@ -196,12 +196,12 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public RespondBody readMessage(long messageId) {
+    public RespondBody readMessage(long sendUserId,long receUserId) {
         RespondBody respondBody;
         try {
-            if (messageId==0)
-                return RespondBuilder.buildErrorResponse("messageId不能为0或空");
-            messageMapper.updateRead(messageId);
+            if (sendUserId==0||receUserId==0)
+                return RespondBuilder.buildErrorResponse("sendUserId或receUserId不能为0或空");
+            messageMapper.updateRead(sendUserId,receUserId);
             respondBody=RespondBuilder.buildNormalResponse("设置已阅成功");
         }catch (Exception e){
             e.printStackTrace();
@@ -251,15 +251,23 @@ public class MessageServiceImpl implements MessageService {
         try{
             LinkedHashSet idSet=new LinkedHashSet();
             HashMap contentMap=new HashMap();
+            HashMap messageNumMap=new HashMap();
             List<Map> list=messageMapper.getNewMessageFriendIdList(userId);
             for(Map map:list){
-                idSet.add(map.get("send_user_id"));
-                if(!contentMap.containsKey(map.get("send_user_id")))
-                    contentMap.put(map.get("send_user_id"),map.get("content"));
+                if(map.get("send_user_id")!=null) {
+                    idSet.add(map.get("send_user_id"));
+                    if (!contentMap.containsKey(map.get("send_user_id"))) {
+                        contentMap.put(map.get("send_user_id"), map.get("content"));
+                        int str=(Integer)map.get("send_user_id");
+                        int num=messageMapper.countFriendNewMessages(userId,Long.valueOf(str));
+                        messageNumMap.put(map.get("send_user_id"),String.valueOf(num));
+                    }
+                }
             }
             HashMap result=new HashMap();
             result.put("ideSet",idSet);
             result.put("contentMap",contentMap);
+            result.put("messageNumMap",messageNumMap);
             respondBody=RespondBuilder.buildNormalResponse(result);
         }catch (Exception e){
             e.printStackTrace();
@@ -296,4 +304,18 @@ public class MessageServiceImpl implements MessageService {
     }
 
 
+    @Override
+    public RespondBody deleteFriendMessage(long userId, long friendId) {
+        RespondBody respondBody;
+        try{
+            if(userId==0||friendId==0)
+                return RespondBuilder.buildErrorResponse("Id不能为0");
+            int i=messageMapper.deleteFriendMessage(userId,friendId);
+            respondBody=RespondBuilder.buildNormalResponse(i);
+        }catch (Exception e){
+            e.printStackTrace();
+            respondBody=RespondBuilder.buildErrorResponse(e.getMessage());
+        }
+        return respondBody;
+    }
 }

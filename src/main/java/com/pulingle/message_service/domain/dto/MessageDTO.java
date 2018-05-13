@@ -29,6 +29,17 @@ public class MessageDTO implements Serializable {
      */
     private int pageSize;
 
+    /**
+     * 手机号
+     */
+    private String phone;
+
+    /**
+     * 验证码
+     */
+    private String authCode;
+
+
 
 
     public long getUserId() {
@@ -61,5 +72,21 @@ public class MessageDTO implements Serializable {
 
     public void setFriendId(long friendId) {
         this.friendId = friendId;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getAuthCode() {
+        return authCode;
+    }
+
+    public void setAuthCode(String authCode) {
+        this.authCode = authCode;
     }
 }

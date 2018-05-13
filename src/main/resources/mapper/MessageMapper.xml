@@ -42,7 +42,8 @@
     <update id="updateRead">
         UPDATE message SET read_status=1
         <where>
-            message_id=#{messageId}
+            send_user_id=#{sendUserId}
+            AND rece_user_id=#{receUserId}
         </where>
     </update>
     <select id="countNewMessages" resultType="java.lang.Integer">
@@ -123,4 +124,22 @@
             AND type=1
         </where>
     </update>
+    <select id="countFriendNewMessages" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM message
+        <where>
+            send_user_id=#{friendId}
+            AND rece_user_id=#{userId}
+            AND read_status=0
+            AND delete_status=0
+            AND type=1
+        </where>
+    </select>
+    <delete id="deleteFriendMessage">
+        DELETE FROM message
+        <where>
+            rece_user_id in (#{userId},#{friendId})
+            AND
+            send_user_id in (#{userId},#{friendId})
+        </where>
+    </delete>
 </mapper>

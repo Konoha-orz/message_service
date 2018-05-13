@@ -35,17 +35,14 @@ public class MessageController {
     }
 
     /**
-     * @param sendUserId 发送请求id
-     * @param receUserId 接受请求id
      * @return 返回体
      */
     @RequestMapping("/sendFriendRequest")
-    public  RespondBody  sendFriendRequest(long sendUserId,long receUserId){
-        return messageService.sendFriendRequest(sendUserId,receUserId);
+    public  RespondBody  sendFriendRequest(@RequestBody Message message){
+        return messageService.sendFriendRequest(message.getSendUserId(),message.getReceUserId());
     }
 
     /**
-     * @param userId 用户id
      * @return 返回体
      * 根据用户id查询所有的好友请求
      */
@@ -81,7 +78,7 @@ public class MessageController {
      */
     @RequestMapping(value = "/readMessage",method = RequestMethod.POST)
     public RespondBody readMessage(@RequestBody Message message){
-        return messageService.readMessage(message.getMessageId());
+        return messageService.readMessage(message.getSendUserId(),message.getReceUserId());
     }
 
     @RequestMapping(value = "/countNewMessages",method = RequestMethod.POST)
@@ -114,4 +111,13 @@ public class MessageController {
         return messageService.getMessageRecords(messageDTO.getUserId(),messageDTO.getFriendId(),messageDTO.getPageSize(),messageDTO.getCurrentPage());
     }
 
+    /**
+    * @param: userId,friendId
+    * @return: RespondBody
+    * @Des: 删除好友之间的消息记录
+    */
+    @RequestMapping(value = "/deleteFriendMessage",method = RequestMethod.POST)
+    public RespondBody deleteFriendMessage(@RequestBody MessageDTO messageDTO){
+        return messageService.deleteFriendMessage(messageDTO.getUserId(),messageDTO.getFriendId());
+    }
 }
