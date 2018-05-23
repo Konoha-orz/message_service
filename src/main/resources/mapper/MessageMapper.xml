@@ -5,7 +5,7 @@
 <mapper namespace="com.pulingle.message_service.mapper.MessageMapper">
     <sql id="allColumn">
         message_id AS messageId,type,read_status AS readStatus,send_user_id AS sendUserId,
-        rece_user_id AS receUserId,DATE_FORMAT(send_time,'%Y-%m-%d %h:%m:%s')AS sendTime,delete_status AS deleteStatus,content
+        rece_user_id AS receUserId,DATE_FORMAT(send_time,'%Y-%m-%d %H:%i:%s')AS sendTime,delete_status AS deleteStatus,content
     </sql>
 
 
@@ -17,7 +17,7 @@
     <select id="queryUserMessage" resultType="java.util.Map">
         SELECT
         message_id AS messageId,read_status AS readStatus,send_user_id AS sendUserId,
-        DATE_FORMAT(send_time,'%Y-%m-%d %h:%m:%s')AS sendTime,content
+        DATE_FORMAT(send_time,'%Y-%m-%d %H:%i:%s')AS sendTime,content
         FROM message
         <where>
             rece_user_id=#{userId}
@@ -77,7 +77,7 @@
         </where>
     </select>
     <select id="getFriendRequest" parameterType="java.lang.Long" resultType="java.util.Map">
-        SELECT message_id AS messageId,send_user_id AS sendUserId,rece_user_id AS receUserId,DATE_FORMAT(send_time,'%Y-%m-%d %h:%m:%s')AS sendTime,content
+        SELECT message_id AS messageId,send_user_id AS sendUserId,rece_user_id AS receUserId,DATE_FORMAT(send_time,'%Y-%m-%d %H:%i:%s')AS sendTime,content
         FROM message
         <where>
             rece_user_id=#{userId}
@@ -103,7 +103,7 @@
     </select>
     <select id="queryMessageRecord" resultType="java.util.Map">
         SELECT message_id AS messageId,send_user_id AS sendUserId,rece_user_id AS receUserId,
-        DATE_FORMAT(send_time,'%Y-%m-%d %h:%m:%s')AS sendTime,content
+        DATE_FORMAT(send_time,'%Y-%m-%d %H:%i:%s')AS sendTime,content
         FROM message
         <where>
             send_user_id IN (#{friendId},#{userId})

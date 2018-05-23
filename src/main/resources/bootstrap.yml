@@ -20,4 +20,5 @@ eureka:
   instance:
     prefer-ip-address: true
 #    指定服务IP地址
-    ip-address: 47.106.148.149
+#    ip-address: 47.106.148.149
+    ip-address: 192.168.3.145
