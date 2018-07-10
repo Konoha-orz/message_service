@@ -16,7 +16,6 @@ eureka:
   client:
     service-url:
       defaultZone: http://120.78.81.233:8761/eureka/
-#      defaultZone: http://120.78.81.233:8761/eureka/
   instance:
     prefer-ip-address: true
 #    指定服务IP地址
